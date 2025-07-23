@@ -5,11 +5,11 @@ import "./App.css";
 
 function App() {
   const [count, setCount] = useState(0);
-  
+
 
   return (
     <>
-      <h1 className="bg-cyan-950 text-amber-100 px-[45vw]">hello</h1>
+      <h1 className="bg-cyan-950 text-amber-100 px-[45vw]">hello yuvraj</h1>
     </>
   );
 }
