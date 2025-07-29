@@ -1,9 +1,0 @@
-npm i
-npm install tailwindcss @tailwindcss/vite
-npm install react-router-dom
-npm install firebase
-npm install axios
-
-
-important website for designing
-https://tailwindflex.com/@sophia-baker/responsive-registration-form
