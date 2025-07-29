@@ -1,42 +1,70 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 import bgsvg from "../assets/login_image.svg";
 const WelcomePage = () => {
   const navigate = useNavigate();
   const [name, setname] = useState("");
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(
-        "http://127.0.0.1:8000/api/students/688102a9e37b53b954fd1d3e",
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log(response.data.name);
-      setname(response.data.name);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
   useEffect(() => {
-    fetchData();
+    /* global google */
+    google.accounts.id.initialize({
+      client_id:
+        "1028542245103-arm2itofdrvbpeuo77r49cpkcj1kar73.apps.googleusercontent.com",
+      callback: handleLogin,
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById("google-button"),
+      {}
+    );
   }, []);
+
+  const handleLogin = (response) => {
+    const decoded = jwtDecode(response.credential);
+    console.log("User Info:", decoded);
+
+    // Optional: Save to localStorage
+    localStorage.setItem("user", JSON.stringify(decoded));
+
+    // Redirect to dashboard
+    navigate("/dashboard");
+  };
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       "http://127.0.0.1:8000/api/students/688102a9e37b53b954fd1d3e",
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+  //     console.log(response.data.name);
+  //     setname(response.data.name);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
   return (
     <>
+      {" "}
+      <div></div>
       <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
         <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
           <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
             <div>{/* <p>{name}</p> */}</div>
             <div className="mt-12 flex flex-col items-center">
-              <h1 className="text-2xl xl:text-3xl font-extrabold">
-                Sign up {name}
-              </h1>
+              <h1 className="text-2xl xl:text-3xl font-extrabold">Sign up</h1>
               <div className="w-full flex-1 mt-8">
                 <div className="flex flex-col items-center">
-                  <button className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
+                  <button
+                    id="google-button"
+                    className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline"
+                  >
                     <div className="bg-white p-2 rounded-full">
                       <svg className="w-4" viewBox="0 0 533.5 544.3">
                         <path
